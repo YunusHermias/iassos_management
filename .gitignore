@@ -66,3 +66,6 @@ doc/api/
 *.js.deps
 *.js.map
 >>>>>>> refs/remotes/origin/main
+
+#env
+.env
