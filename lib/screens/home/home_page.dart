@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:iassos_management/config/db/connection.dart';
 import 'package:iassos_management/config/db/connection_pool.dart';
+import 'package:iassos_management/models/paid.dart';
+import 'package:iassos_management/models/pay.dart';
+import 'package:iassos_management/models/payment.dart';
+import 'package:iassos_management/models/social_media.dart';
+import 'package:iassos_management/models/unpay.dart';
+import 'package:iassos_management/models/user.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class HomePage extends StatelessWidget {
@@ -17,12 +23,44 @@ class HomePage extends StatelessWidget {
                 .getConnection()
                 .catchError((e) => print("$e"));
             connection.isBusy = true;
+            User user = User();
+            user.email = 'abc@gmail.com';
+            user.group = "Marmaris Grup";
+            user.level = "Giris Seviye";
+            user.amountToBePaidIncMonths = 400.0;
+            user.classDayOfTheWeek = 2;
+            user.mobile = "+90 555 679 13 78 ";
+            user.name = "Ali Veli Konya";
+            Payment payment = Payment(
+              pay: Pay(
+                  discount: 50.0,
+                  remainingAmount: 200.0,
+                  total: 400.0,
+                  date: DateTime.now()
+                      .subtract(const Duration(days: 30))
+                      .toString(),
+                  paid: List.generate(2, (index) {
+                    return Paid(
+                        payDate: DateTime.now().toString(),
+                        amount: 50.0 * index);
+                  })),
+              unPay: Unpay(
+                  total: 200.0,
+                  date: DateTime.now()
+                      .subtract(const Duration(days: 30))
+                      .toString(),
+                  discount: 50.0,
+                  remainingAmount: 200.0,
+                  unpaid: List.generate(1, (index) => Paid(amount: 200.0))),
+            );
+            user.payments = [payment];
+            user.status = 1;
+            user.socialMedias = [
+              SocialMedia(
+                  link: "www.google.com.tr", name: "Sergey", title: "Google+")
+            ];
             var userCollection = connection.dbConnection.collection("users");
-            var cursor = userCollection.find();
-            await for (var document in cursor) {
-              print("Username: ${document["username"]}");
-              print("Name: ${document["name"]}");
-            }
+            userCollection.insert(user.toJson());
             connection.isBusy = false;
           },
           child: const Text(
