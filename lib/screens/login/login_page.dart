@@ -23,6 +23,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     passwordTextEditingController = TextEditingController();
   }
 
+  showSnackBar(String msg, BuildContext buildContext) {
+    SnackBar snackBar = SnackBar(
+      content: Text(msg),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     final LoginController loginController = ref.watch(loginProvider);
@@ -63,6 +70,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       labelText: "Username",
                       textEditingController: usernameTextEditingController),
                   LoginInput(
+                    obscure: true,
                     iconData: Icons.lock,
                     labelText: "Password",
                     textEditingController: passwordTextEditingController,
@@ -74,9 +82,23 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     child: ElevatedButton(
                       onPressed: () async {
                         loginController.changeLoginProgressStatus(true);
+                        String username = usernameTextEditingController.text;
+                        String password = passwordTextEditingController.text;
+
+                        if (username.isEmpty || password.isEmpty) {
+                          showSnackBar("Username or password can not be empty!",
+                              context);
+                        }
                         bool loginResult = await loginController.login(
                             usernameTextEditingController.text,
                             passwordTextEditingController.text);
+
+                        if (!loginResult) {
+                          showSnackBar("Wrong Credentials", context);
+                        } else {
+                          print("Good for you");
+                        }
+
                         loginController.changeLoginProgressStatus(false);
                       },
                       child: const Text("LOGIN"),
