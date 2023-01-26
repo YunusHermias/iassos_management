@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 
 class LoginInput extends StatelessWidget {
   const LoginInput(
-      {super.key, required this.iconData, required this.labelText});
+      {super.key,
+      required this.iconData,
+      required this.labelText,
+      required this.textEditingController});
 
+  final TextEditingController textEditingController;
   final String labelText;
   final IconData iconData;
 
@@ -15,6 +19,7 @@ class LoginInput extends StatelessWidget {
         height: 50.0,
         width: 300.0,
         child: TextFormField(
+          controller: textEditingController,
           decoration: InputDecoration(
             labelText: labelText,
             prefixIcon: Icon(iconData),

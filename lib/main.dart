@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iassos_management/screens/home/home_page.dart';
 import 'package:iassos_management/screens/login/login_page.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
-  runApp(const IassosManagement());
+  runApp(const ProviderScope(child: IassosManagement()));
 }
 
 class IassosManagement extends StatelessWidget {

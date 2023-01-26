@@ -6,8 +6,7 @@ import 'package:iassos_management/models/pay.dart';
 import 'package:iassos_management/models/payment.dart';
 import 'package:iassos_management/models/social_media.dart';
 import 'package:iassos_management/models/unpay.dart';
-import 'package:iassos_management/models/user.dart';
-import 'package:mongo_dart/mongo_dart.dart';
+import 'package:iassos_management/models/participant.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -23,7 +22,7 @@ class HomePage extends StatelessWidget {
                 .getConnection()
                 .catchError((e) => print("$e"));
             connection.isBusy = true;
-            User user = User();
+            Participant user = Participant();
             user.email = 'abc@gmail.com';
             user.group = "Marmaris Grup";
             user.level = "Giris Seviye";
