@@ -25,10 +25,10 @@ class IassosManagement extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       navigatorKey: navigatorKey,
-      initialRoute: '/',
+      initialRoute: '/participants',
       routes: {
         '/': (context) => const LoginPage(),
-        '/participants': (context) => const ParticipantPage(),
+        '/participants': (context) => ParticipantPage(),
         '/home': (context) => const HomePage(),
       },
     );
