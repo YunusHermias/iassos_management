@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iassos_management/globals/providers.dart';
-import 'package:iassos_management/main.dart';
 import 'package:iassos_management/screens/login/login_controller.dart';
 import 'package:iassos_management/screens/login/widgets/login_input.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -22,6 +21,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     super.initState();
     usernameTextEditingController = TextEditingController();
     passwordTextEditingController = TextEditingController();
+  }
+
+  showSnackBar(String msg, BuildContext buildContext) {
+    SnackBar snackBar = SnackBar(
+      content: Text(msg),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
@@ -75,8 +81,23 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     child: ElevatedButton(
                       onPressed: () async {
                         loginController.changeLoginProgressStatus(true);
+                        String username = usernameTextEditingController.text;
+                        String password = passwordTextEditingController.text;
+
+                        if (username.isEmpty || password.isEmpty) {
+                          showSnackBar("Username or password can not be empty!",
+                              context);
+                        }
                         bool loginResult = await loginController.login(
-                            usernameTextEditingController.text, passwordTextEditingController.text);
+                            usernameTextEditingController.text,
+                            passwordTextEditingController.text);
+
+                        if (!loginResult) {
+                          showSnackBar("Wrong Credentials", context);
+                        } else {
+                          print("Good for you");
+                        }
+
                         loginController.changeLoginProgressStatus(false);
                         if (loginResult) {
                           navigatorKey.currentState?.pushNamed("/home");
