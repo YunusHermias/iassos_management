@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iassos_management/config/db/connection.dart';
 import 'package:iassos_management/config/db/connection_pool.dart';
-import 'package:iassos_management/models/user.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class LoginController extends ChangeNotifier {

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iassos_management/models/participant.dart';
 import 'package:iassos_management/screens/home/home_page.dart';
 import 'package:iassos_management/screens/login/login_page.dart';
+import 'package:iassos_management/screens/participant/participant_page.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -16,11 +20,17 @@ class IassosManagement extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Iassos Management',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(),
+      navigatorKey: navigatorKey,
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const LoginPage(),
+        '/participants': (context) => const ParticipantPage(),
+        '/home': (context) => const HomePage(),
+      },
     );
   }
 }

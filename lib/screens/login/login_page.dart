@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iassos_management/globals/providers.dart';
+import 'package:iassos_management/main.dart';
 import 'package:iassos_management/screens/login/login_controller.dart';
 import 'package:iassos_management/screens/login/widgets/login_input.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -75,9 +76,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       onPressed: () async {
                         loginController.changeLoginProgressStatus(true);
                         bool loginResult = await loginController.login(
-                            usernameTextEditingController.text,
-                            passwordTextEditingController.text);
+                            usernameTextEditingController.text, passwordTextEditingController.text);
                         loginController.changeLoginProgressStatus(false);
+                        if (loginResult) {
+                          navigatorKey.currentState?.pushNamed("/home");
+                        }
                       },
                       child: const Text("LOGIN"),
                     ),
